@@ -13,7 +13,11 @@ import static java.util.Collections.binarySearch;
 class Scores {
 
     private final Map<String, Double> scoreByName = new HashMap<>();
-    private final List<Member> sortedMembers = new ArrayList<>();
+    private final List<Member> sortedMembers;
+
+    public Scores(int initialCapacity) {
+        sortedMembers = new ArrayList<>(initialCapacity);
+    }
 
     void addMember(String name, Double score) {
         scoreByName.put(name, score);
