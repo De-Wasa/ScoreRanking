@@ -20,4 +20,19 @@ class SkipListTest {
         assertEquals("c", skipList.get(2));
         assertEquals("d", skipList.get(3));
     }
+
+    @Test
+    public void simpleAddIndexOf() {
+        SkipList<String> skipList = new SkipList<>();
+
+        skipList.add("c");
+        skipList.add("d");
+        skipList.add("a");
+        skipList.add("b");
+
+        assertEquals(0, skipList.indexOf("a"));
+        assertEquals(1, skipList.indexOf("b"));
+        assertEquals(2, skipList.indexOf("c"));
+        assertEquals(3, skipList.indexOf("d"));
+    }
 }

@@ -4,7 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.apache.commons.lang3.NotImplementedException;
+
+import java.util.NoSuchElementException;
 
 /**
  * Purpose:
@@ -37,7 +38,19 @@ public class SkipList<U extends Comparable<U>> {
     }
 
     public int indexOf(U value) {
-        throw new NotImplementedException("indexOf");
+        Node node = refNode;
+        int i = 0;
+        do {
+            node = node.getNext();
+
+            if (node.getValue().equals(value)) {
+                return i;
+            }
+            i += 1;
+
+        } while (node.hasNext());
+
+        throw new NoSuchElementException("Cannot find " + value);
     }
 
     @RequiredArgsConstructor
