@@ -1,10 +1,5 @@
 package org.wasa.scoreranking;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-
 import java.util.NoSuchElementException;
 
 /**
@@ -14,15 +9,13 @@ import java.util.NoSuchElementException;
  */
 public class SkipList<U extends Comparable<U>> {
 
-    private final Node refNode = new Node(null);
+    private final Node refNode = new Node(null, null);
 
     public void add(U value) {
         Node node = refNode;
         while (node.hasNext()) {
             if (node.getNext().getValue().compareTo(value) > 0) {
-                Node newNode = new Node(value, node.getNext());
-                node.setNext(newNode);
-                return;
+                break;
             }
             node = node.getNext();
         }
@@ -39,31 +32,41 @@ public class SkipList<U extends Comparable<U>> {
 
     public int indexOf(U value) {
         Node node = refNode;
-        int i = 0;
-        do {
+        for (int i = 0; true; i++) {
             node = node.getNext();
-
             if (node.getValue().equals(value)) {
                 return i;
             }
-            i += 1;
-
-        } while (node.hasNext());
-
-        throw new NoSuchElementException("Cannot find " + value);
+            if (!node.hasNext()) {
+                throw new NoSuchElementException("Cannot find " + value);
+            }
+        }
     }
 
-    @RequiredArgsConstructor
-    @AllArgsConstructor
-    @Getter
     private class Node {
 
         private final U value;
-        @Setter
         private Node next;
+
+        private Node(U value, Node next) {
+            this.value = value;
+            this.next = next;
+        }
+
+        public U getValue() {
+            return value;
+        }
+
+        public Node getNext() {
+            return next;
+        }
 
         boolean hasNext() {
             return next != null;
+        }
+
+        public void setNext(Node next) {
+            this.next = next;
         }
     }
 
